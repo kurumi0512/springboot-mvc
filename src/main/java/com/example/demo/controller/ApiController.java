@@ -106,6 +106,9 @@ public class ApiController {
 		Object data = Map.of("最高分", stat.getMax(), "最低分", stat.getMin(), "平均", stat.getAverage(), "總分", stat.getSum(),
 				"及格", resultMap.get(true), "不及格", resultMap.get(false));
 		return ResponseEntity.ok(ApiResponse.success("計算成功", data));
+		// 這邊使用 Object 作為 data 的型別，是為了彈性地包裝不同型別的資料結構
+		// 這一行實際上建立了一個 Map<String, Object>（裡面可能有整數、雙精度、List 等混合型別的值），但因為 ApiResponse<T>
+		// 是泛型的，我們無法事先知道 T 是什麼型別，因此使用 Object 作為最通用的容器。
 
 	}
 }
