@@ -76,6 +76,7 @@ public class ApiController {
 	// 網址: http://localhost:8080/api/age?age=17&age=21&age=20
 	// 請計算出平均年齡
 	// mapof是靜態的陣列,不能再新增內容
+	// <ApiResponse<T>不知道要放什麼放Object就好
 	@GetMapping(value = "/age", produces = "application/json;charset=utf-8")
 	public ResponseEntity<ApiResponse<Object>> getAverage(
 			@RequestParam(name = "age", required = false) List<String> ages) {

@@ -15,7 +15,7 @@ public class ApiResponse<T> {
 	private String message; // 訊息 例如: 查詢成功, 新增成功, 計算成功...
 	T data; // payload 實際資料
 
-	// 成功回應
+	// 成功回應,會回傳ApiResponse的泛型
 	public static <T> ApiResponse<T> success(String message, T data) {
 		return new ApiResponse<T>(message, data);
 	}
