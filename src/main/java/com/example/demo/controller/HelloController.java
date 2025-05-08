@@ -24,6 +24,7 @@ public class HelloController {
 
 	@GetMapping("/welcome")
 	public String welcome(Model model) {
+		// 不寫@ResponseBody的話,會自己去找jsp渲染
 		// model裡面放的就是要"自動"傳給jsp的資料
 		model.addAttribute("name", "阿山哥");
 		model.addAttribute("now", new Date());

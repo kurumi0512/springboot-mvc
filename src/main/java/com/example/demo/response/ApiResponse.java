@@ -4,7 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// 建立 Server 與 Client 在傳遞資料上的統一結構與標準(含錯誤)
+//因為Data不知道是什麼型態,所以給T泛型
+//建立 Server 與 Client 在傳遞資料上的統一結構與標準(含錯誤)
+//原先有寫一個private Integer status 狀態:400,200,不過可以交由前端處理
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
