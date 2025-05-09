@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.BMI;
+import com.example.demo.model.Book;
 import com.example.demo.response.ApiResponse;
 
 @RestController // 免去撰寫 @ResponseBody, 但若要透過 jsp 渲染則不適用
@@ -111,4 +112,42 @@ public class ApiController {
 		// 是泛型的，我們無法事先知道 T 是什麼型別，因此使用 Object 作為最通用的容器。
 
 	}
+
+	// 7.多筆參數轉Map,用map去接資料(因為打在網址列,要用map接)
+	// name書名(String),price價格(Double),amount數量(Integer),pub出刊/停刊(Boolean)
+	// 路徑: /book?name=Math&price=12.5&amount=10&pub=true
+	// 路徑: /book?name=English&price=10.5&amount=20&pub=false
+	// 網址:http://localhost:8080/api/book?name=Math&price=12.5&amount=10&pub=true
+	// 網址:http://localhost:8080/api/book?name=English&price=10.5&amount=20&pub=false
+	// 讓參數自動轉成 key/value 的Map 集合(使用@RequestParam,Spring boot自動會轉成參數)
+	@GetMapping(value = "/book", produces = "application/json;charset=utf-8")
+	public ResponseEntity<ApiResponse<Object>> getBookInfo(@RequestParam Map<String, Object> bookMap) {
+		System.out.println(bookMap);
+		return ResponseEntity.ok(ApiResponse.success("回應成功", bookMap));
+	}
+
+	// 8.多筆參數轉指定model物件
+	// 路徑:承上
+	// 網址:承上
+	// 建一個model book的Bean把它帶進來
+	// 用自己寫的bean去接資料
+	// 給對的參數就會自己匹配進去
+	@GetMapping(value = "/book2", produces = "application/json;charset=utf-8")
+	public ResponseEntity<ApiResponse<Object>> getBookInfo2(Book book) {
+		book.setId(1); // 設定 id
+		System.out.println(book);
+		return ResponseEntity.ok(ApiResponse.success("回應成功2", book));
+	}
+
+	// 9.路徑參數
+	// 早期設計風格:
+	// 路徑:/book?id=1 得到id =1 的書
+	// 路徑:/book?id=3 得到id =3 的書
+
+	// 現代設計風格:
+	// 路徑:/book/1 得到id =1 的書
+	// 路徑:/book/3 得到id =3 的書
+	// 網址:http://localhost:8080/api/book/1
+	// 網址:http://localhost:8080/api/book/3
+
 }
