@@ -121,7 +121,8 @@ public class ApiController {
 	// 路徑: /book?name=English&price=10.5&amount=20&pub=false
 	// 網址:http://localhost:8080/api/book?name=Math&price=12.5&amount=10&pub=true
 	// 網址:http://localhost:8080/api/book?name=English&price=10.5&amount=20&pub=false
-	// 讓參數自動轉成 key/value 的Map 集合(使用@RequestParam,Spring boot自動會轉成參數)
+	// 讓參數自動轉成 key/value 的Map 集合(使用@RequestParam,Spring
+	// boot自動會轉成Map<String,object>參數)
 	@GetMapping(value = "/book", produces = "application/json;charset=utf-8")
 	public ResponseEntity<ApiResponse<Object>> getBookInfo(@RequestParam Map<String, Object> bookMap) {
 		System.out.println(bookMap);
@@ -158,6 +159,7 @@ public class ApiController {
 	// 網址:http://localhost:8080/api/book/3
 	@GetMapping(value = "/book/{id}", produces = "application/json;charset=utf-8")
 	// (name = "id")可以省略不寫,name是路徑參數 名字的意思
+	// getBookById(...) 是你自訂的方法名稱，可以取任何名字
 	public ResponseEntity<ApiResponse<Book>> getBookById(@PathVariable(name = "id") Integer id) {
 		// 書庫
 		List<Book> books = List.of(new Book(1, "機器貓小叮噹", 12.5, 20, false), new Book(2, "老夫子", 10.5, 30, false),
@@ -168,7 +170,7 @@ public class ApiController {
 		if (optBook.isEmpty()) {
 			return ResponseEntity.badRequest().body(ApiResponse.error("查無此書"));
 		}
-		Book book = optBook.get(); // 取得書籍
+		Book book = optBook.get(); // 取得書籍,Optional<Book> 物件中取出實際的 Book 物件，並把它放到變數 book 裡。
 		return ResponseEntity.ok(ApiResponse.success("查詢成功", book));
 	}
 
@@ -185,6 +187,7 @@ public class ApiController {
 				new Book(3, "好小子", 8.5, 40, true), new Book(4, "尼羅河的女兒", 14.5, 50, true));
 		// 過濾出刊/停刊
 		// .equals(isPub) 的意思是：比對書本的出刊狀態（book.getPub()）是否等於網址傳進來的參數 isPub。
+		// 每一本書都執行這段：拿書的 getPub()（是否出刊）去比對網址傳來的參數 isPub（true/false）
 		List<Book> queryBooks = books.stream().filter(book -> book.getPub().equals(isPub)).toList();
 		if (queryBooks.size() == 0) {
 			return ResponseEntity.badRequest().body(ApiResponse.error("查無此書"));
