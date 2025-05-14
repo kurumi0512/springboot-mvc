@@ -13,6 +13,9 @@ import com.example.demo.repository.BookRepository;
 @Service
 public class BookServiceImpl implements BookService {
 
+	// 自動綁定,service要串DAO,不用new會自動綁定
+	// Spring 依賴注入（DI）設計原則：依賴「抽象」，不是「實作」
+	// 你不需要寫 new BookRepositoryImpl()，Spring 幫你注入了！
 	@Autowired
 	private BookRepository bookRepository;
 
@@ -54,9 +57,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public void updateBookPrice(Integer id, Double price) throws BookException {
-		Book book = getBookById(id);
-		book.setPrice(price);
-		updateBook(book.getId(), book);
+		Book book = getBookById(id);// 1. 根據 id 拿到對應的 Book 物件
+		book.setPrice(price); // 2. 設定這本書的新價格
+		updateBook(book.getId(), book); // 3. 呼叫更新邏輯，把修改後的 book 更新回 Repository
 	}
 
 	@Override

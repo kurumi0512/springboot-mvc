@@ -26,10 +26,12 @@ import com.example.demo.service.BookService;
 @RequestMapping("/book")
 public class BookController {
 
+	// Spring 依賴注入（DI）設計原則：依賴「抽象」，不是「實作」
 	@Autowired
 	private BookService bookService;
 
-	@GetMapping
+	// 每個方法都對應到 HTTP 方法與路由，用來實作對書籍資料的操作
+	@GetMapping // 後面不加代表只要/book就好
 	public ResponseEntity<ApiResponse<List<Book>>> findAllBooks() {
 		List<Book> books = bookService.findAllBooks();
 		if (books.size() == 0) {
@@ -78,6 +80,7 @@ public class BookController {
 		}
 	}
 
+	// PUT 是整筆更新，PATCH 是部分更新
 	// 部分修改 name 與 price
 	@PatchMapping("/{id}")
 	public ResponseEntity<ApiResponse<Book>> updateBookNameAndPrice(@PathVariable Integer id, @RequestBody Book book) {
