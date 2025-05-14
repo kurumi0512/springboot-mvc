@@ -26,7 +26,7 @@ import com.example.demo.service.BookService;
 @RequestMapping("/book")
 public class BookController {
 
-	@Autowired
+	@Autowired //
 	private BookService bookService;
 
 	@GetMapping
