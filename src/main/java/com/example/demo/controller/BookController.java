@@ -51,6 +51,7 @@ public class BookController {
 	}
 
 	@PostMapping // 新增
+	// @RequestBody 的用途，就是「接住放在 request body 中的參數」
 	public ResponseEntity<ApiResponse<Book>> addBook(@RequestBody Book book) {
 		try {
 			bookService.addBook(book);
@@ -60,7 +61,7 @@ public class BookController {
 		}
 	}
 
-	@DeleteMapping("/{id}") // 刪除
+	@DeleteMapping("/{id}") // 根據id來刪除
 	public ResponseEntity<ApiResponse<String>> deletedBook(@PathVariable Integer id) {
 		try {
 			bookService.deleteBook(id);
@@ -70,7 +71,7 @@ public class BookController {
 		}
 	}
 
-	@PutMapping("/{id}") // 修改
+	@PutMapping("/{id}") // 修改 路徑會知道是要修改{id}這一筆,寫在路徑看起來會比較直接
 	public ResponseEntity<ApiResponse<Book>> updateBook(@PathVariable Integer id, @RequestBody Book book) {
 		try {
 			bookService.updateBook(id, book);
@@ -80,7 +81,8 @@ public class BookController {
 		}
 	}
 
-	// PUT 是整筆更新，PATCH 是部分更新
+	// PUT 是完整修改(整筆更新)，PATCH 是部分更新
+	// @PathVariable Integer id(路徑資料), @RequestBody Book book(要傳進去所有的json檔案)
 	// 部分修改 name 與 price
 	@PatchMapping("/{id}")
 	public ResponseEntity<ApiResponse<Book>> updateBookNameAndPrice(@PathVariable Integer id, @RequestBody Book book) {
@@ -92,7 +94,7 @@ public class BookController {
 		}
 	}
 
-	// 部分修改 price
+	// 部分修改 price,還是存成JSON,只是是這樣處理
 	@PatchMapping("/price/{id}")
 	public ResponseEntity<ApiResponse<Book>> updateBookPrice(@PathVariable Integer id, @RequestBody Book book) {
 		try {
