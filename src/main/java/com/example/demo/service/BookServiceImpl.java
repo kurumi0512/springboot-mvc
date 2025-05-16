@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.BookException;
@@ -17,6 +18,7 @@ public class BookServiceImpl implements BookService {
 	// Spring 依賴注入（DI）設計原則：依賴「抽象」，不是「實作」
 	// 你不需要寫 new BookRepositoryImpl()，Spring 幫你注入了！
 	@Autowired
+	@Qualifier("bookRepositoryJdbcImpl") // 指定實現類。有兩個實現類,要指定是要用哪個
 	private BookRepository bookRepository;
 
 	@Override
