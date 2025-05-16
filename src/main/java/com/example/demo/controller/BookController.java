@@ -1,4 +1,3 @@
-
 package com.example.demo.controller;
 
 import java.util.List;
@@ -62,7 +61,7 @@ public class BookController {
 	}
 
 	@DeleteMapping("/{id}") // 根據id來刪除
-	public ResponseEntity<ApiResponse<String>> deletedBook(@PathVariable Integer id) {
+	public ResponseEntity<ApiResponse<String>> deletedBook(@PathVariable("id") Integer id) {
 		try {
 			bookService.deleteBook(id);
 			return ResponseEntity.ok(ApiResponse.success("刪除成功", ""));
@@ -72,7 +71,7 @@ public class BookController {
 	}
 
 	@PutMapping("/{id}") // 修改 路徑會知道是要修改{id}這一筆,寫在路徑看起來會比較直接
-	public ResponseEntity<ApiResponse<Book>> updateBook(@PathVariable Integer id, @RequestBody Book book) {
+	public ResponseEntity<ApiResponse<Book>> updateBook(@PathVariable("id") Integer id, @RequestBody Book book) {
 		try {
 			bookService.updateBook(id, book);
 			return ResponseEntity.ok(ApiResponse.success("修改成功", book));
