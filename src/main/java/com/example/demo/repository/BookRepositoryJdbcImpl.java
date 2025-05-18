@@ -16,14 +16,16 @@ import com.example.demo.model.Book;
 public class BookRepositoryJdbcImpl implements BookRepository {
 
 	@Autowired
-	private JdbcTemplate jdbcTemplate; // 自動綁定 spring 內建的 JdbcTemplate 物件
+	private JdbcTemplate jdbcTemplate; // 自動綁定 spring 內建的 JdbcTemplate 物件,spring會自己new一個jdbctemplate
 
 	@Override
 	public List<Book> findAllBooks() {
 		// String sql = "select * from book"; // 用 * 犯規
-		String sql = "select id, name, price, amount, pub from book";
+		String sql = "select id, name, price, amount, pub from book"; // 如果有不同資料庫的話要用web.book
 		// BeanPropertyRowMapper(Book.class) 自動將每一筆紀錄注入到 Book 物件中
-		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class)); // <>是book的意思
+		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class));
+		// 使用 Spring JDBC 的 JdbcTemplate 來查詢資料庫，並且把查詢結果自動轉換成 Book 類別的物件清單（List<Book>）。
+		// <>是book的意思
 	}
 
 	@Override
